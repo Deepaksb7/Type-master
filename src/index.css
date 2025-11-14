@@ -1,0 +1,6 @@
+html,body,#root{height:100%}
+body{margin:0;background:#071022;color:#e6eef8}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

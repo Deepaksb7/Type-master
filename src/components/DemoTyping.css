@@ -1,0 +1,160 @@
+.demo-typing-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+}
+
+.demo-timer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    padding: 12px 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+    font-size: 1.1rem;
+    color: #333;
+    z-index: 100;
+}
+
+.demo-timer strong {
+    color: #864cff;
+    font-weight: 700;
+    margin-left: 8px;
+}
+
+.demo-content {
+    max-width: 900px;
+    margin: 80px auto 0 auto;
+    background: #fff;
+    border-radius: 18px;
+    padding: 42px 38px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.demo-content h2 {
+    font-size: 2rem;
+    color: #181828;
+    margin-bottom: 12px;
+}
+
+.demo-content>p {
+    color: #5b626b;
+    margin-bottom: 28px;
+    font-size: 1.1rem;
+}
+
+.typing-practice-area {
+    margin-top: 32px;
+}
+
+.demo-text {
+    background: #f8f9fa;
+    padding: 24px;
+    border-radius: 12px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.demo-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 16px;
+    border: 2px solid #e0e3e8;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-family: monospace;
+    resize: vertical;
+    transition: border-color 0.18s;
+    box-sizing: border-box;
+}
+
+.demo-input:focus {
+    border-color: #864cff;
+    outline: none;
+}
+
+/* Modal Styles */
+.demo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s;
+}
+
+.demo-modal {
+    background: #fff;
+    border-radius: 18px;
+    padding: 48px 42px;
+    max-width: 460px;
+    width: 90%;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.demo-modal h2 {
+    font-size: 2rem;
+    color: #181828;
+    margin-bottom: 16px;
+}
+
+.demo-modal>p {
+    color: #5b626b;
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+}
+
+.modal-subtext {
+    color: #999;
+    font-size: 1rem;
+    margin-bottom: 28px !important;
+}
+
+.modal-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #864cff, #8f6fff 65%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: filter 0.18s;
+}
+
+.modal-btn:hover {
+    filter: brightness(1.12);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

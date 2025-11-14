@@ -1,0 +1,683 @@
+/* ========================================
+   UNIQUE ANIMATED BACKGROUND SYSTEM
+======================================== */
+.create-user-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Base Backgrounds */
+:root[data-theme="light"] .create-user-page {
+    background: linear-gradient(135deg, #f0f4f8 0%, #e3e9f0 100%);
+}
+
+:root[data-theme="dark"] .create-user-page {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+}
+
+/* Animated Background Container */
+.animated-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* ========================================
+   MORPHING GRADIENT BLOBS
+======================================== */
+.morph-blob {
+    position: absolute;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+    animation: morphing 20s ease-in-out infinite;
+}
+
+:root[data-theme="light"] .blob-1 {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    right: -150px;
+}
+
+:root[data-theme="dark"] .blob-1 {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    right: -150px;
+    opacity: 0.5;
+}
+
+:root[data-theme="light"] .blob-2 {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    left: -100px;
+}
+
+:root[data-theme="dark"] .blob-2 {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    left: -100px;
+    opacity: 0.4;
+}
+
+:root[data-theme="light"] .blob-3 {
+    background: linear-gradient(225deg, #4facfe, #00f2fe);
+    width: 450px;
+    height: 450px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+:root[data-theme="dark"] .blob-3 {
+    background: linear-gradient(225deg, #4facfe, #00f2fe);
+    width: 450px;
+    height: 450px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.3;
+}
+
+@keyframes morphing {
+
+    0%,
+    100% {
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        transform: translate(30px, -40px) rotate(90deg);
+    }
+
+    50% {
+        border-radius: 50% 60% 40% 60% / 50% 40% 60% 50%;
+        transform: translate(-20px, 30px) rotate(180deg);
+    }
+
+    75% {
+        border-radius: 70% 30% 60% 40% / 40% 70% 30% 60%;
+        transform: translate(40px, 20px) rotate(270deg);
+    }
+}
+
+/* ========================================
+   GEOMETRIC PATTERNS
+======================================== */
+.geometric-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.geo-shape {
+    position: absolute;
+    opacity: 0.1;
+}
+
+:root[data-theme="light"] .geo-shape {
+    border: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+:root[data-theme="dark"] .geo-shape {
+    border: 2px solid rgba(102, 126, 234, 0.5);
+}
+
+.geo-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    top: 10%;
+    right: 20%;
+    animation: geoFloat 15s ease-in-out infinite;
+}
+
+.geo-triangle {
+    width: 0;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 173px solid;
+    bottom: 15%;
+    left: 15%;
+    opacity: 0.08;
+    animation: geoRotate 20s linear infinite;
+}
+
+:root[data-theme="light"] .geo-triangle {
+    border-bottom-color: rgba(118, 75, 162, 0.3);
+}
+
+:root[data-theme="dark"] .geo-triangle {
+    border-bottom-color: rgba(118, 75, 162, 0.5);
+}
+
+.geo-square {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 10%;
+    animation: geoScale 12s ease-in-out infinite;
+}
+
+.geo-hexagon {
+    width: 100px;
+    height: 57.74px;
+    top: 20%;
+    left: 10%;
+    position: relative;
+    animation: geoFloat 18s ease-in-out infinite reverse;
+}
+
+:root[data-theme="light"] .geo-hexagon::before,
+:root[data-theme="light"] .geo-hexagon::after {
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+:root[data-theme="dark"] .geo-hexagon::before,
+:root[data-theme="dark"] .geo-hexagon::after {
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.geo-hexagon::before,
+.geo-hexagon::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+}
+
+.geo-hexagon::before {
+    bottom: 100%;
+    border-bottom: 28.87px solid;
+}
+
+.geo-hexagon::after {
+    top: 100%;
+    width: 0;
+    border-top: 28.87px solid;
+}
+
+@keyframes geoFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+
+    50% {
+        transform: translateY(-50px) translateX(30px);
+    }
+}
+
+@keyframes geoRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes geoScale {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.2) rotate(45deg);
+    }
+}
+
+/* ========================================
+   WAVE ANIMATION (SVG) - VERIFIED
+======================================== */
+.wave-svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+:root[data-theme="light"] .gradient-stop-1 {
+    stop-color: #667eea;
+}
+
+:root[data-theme="light"] .gradient-stop-2 {
+    stop-color: #764ba2;
+}
+
+:root[data-theme="dark"] .gradient-stop-1 {
+    stop-color: #4facfe;
+}
+
+:root[data-theme="dark"] .gradient-stop-2 {
+    stop-color: #00f2fe;
+}
+
+/* ========================================
+   PARTICLE SYSTEM WITH TRAILS
+======================================== */
+.particle-system {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.particle-trail {
+    position: absolute;
+    width: 120px;
+    height: 2px;
+    opacity: 0;
+}
+
+:root[data-theme="light"] .particle-trail {
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.6), transparent);
+}
+
+:root[data-theme="dark"] .particle-trail {
+    background: linear-gradient(90deg, transparent, rgba(79, 172, 254, 0.8), transparent);
+}
+
+.particle-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+:root[data-theme="light"] .particle-dot {
+    background: rgba(102, 126, 234, 0.8);
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.6);
+}
+
+:root[data-theme="dark"] .particle-dot {
+    background: rgba(79, 172, 254, 1);
+    box-shadow: 0 0 15px rgba(79, 172, 254, 0.8);
+}
+
+.particle-1 {
+    top: 15%;
+    left: 10%;
+    animation: particleTrail 8s linear infinite;
+}
+
+.particle-2 {
+    top: 25%;
+    right: 15%;
+    animation: particleTrail 10s linear infinite 1s;
+}
+
+.particle-3 {
+    top: 40%;
+    left: 20%;
+    animation: particleTrail 7s linear infinite 2s;
+}
+
+.particle-4 {
+    bottom: 30%;
+    right: 25%;
+    animation: particleTrail 9s linear infinite 3s;
+}
+
+.particle-5 {
+    top: 60%;
+    left: 15%;
+    animation: particleTrail 11s linear infinite 1.5s;
+}
+
+.particle-6 {
+    top: 70%;
+    right: 20%;
+    animation: particleTrail 8.5s linear infinite 2.5s;
+}
+
+.particle-7 {
+    top: 20%;
+    left: 60%;
+    animation: particleTrail 10.5s linear infinite 0.5s;
+}
+
+.particle-8 {
+    bottom: 25%;
+    left: 40%;
+    animation: particleTrail 9.5s linear infinite 3.5s;
+}
+
+.particle-9 {
+    top: 45%;
+    right: 35%;
+    animation: particleTrail 7.5s linear infinite 1.2s;
+}
+
+.particle-10 {
+    bottom: 40%;
+    left: 55%;
+    animation: particleTrail 8.8s linear infinite 2.8s;
+}
+
+.particle-11 {
+    top: 35%;
+    left: 70%;
+    animation: particleTrail 10.2s linear infinite 0.8s;
+}
+
+.particle-12 {
+    bottom: 20%;
+    right: 45%;
+    animation: particleTrail 9.2s linear infinite 3.2s;
+}
+
+@keyframes particleTrail {
+    0% {
+        opacity: 0;
+        transform: translateX(0) translateY(0);
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(300px) translateY(-100px);
+    }
+}
+
+/* ========================================
+   GRID OVERLAY PATTERN
+======================================== */
+.grid-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.03;
+    background-image:
+        linear-gradient(rgba(102, 126, 234, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102, 126, 234, 0.2) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(50px, 50px);
+    }
+}
+
+/* ========================================
+   MAIN CONTENT - SMALLER FORM CARD
+======================================== */
+.create-user-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 420px;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card Styles - SMALLER SIZE */
+:root[data-theme="light"] .create-user-card {
+    background: rgba(255, 255, 255, 0.9);
+    color: #181828;
+    border: 2px solid rgba(102, 126, 234, 0.25);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="dark"] .create-user-card {
+    background: rgba(30, 42, 58, 0.7);
+    border: 2px solid rgba(79, 172, 254, 0.4);
+    color: #fff;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.create-user-card {
+    border-radius: 20px;
+    padding: 32px;
+    animation: cardPopIn 0.8s ease-out 0.3s both;
+}
+
+@keyframes cardPopIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.card-icon {
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 16px;
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.create-user-card h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+
+:root[data-theme="light"] .create-user-card h1 {
+    color: #1a202c;
+}
+
+:root[data-theme="dark"] .create-user-card h1 {
+    color: #fff;
+}
+
+.create-user-card>p {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+:root[data-theme="light"] .create-user-card>p {
+    color: #4a5568;
+}
+
+:root[data-theme="dark"] .create-user-card>p {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+:root[data-theme="light"] .form-group label {
+    color: #2d3748;
+}
+
+:root[data-theme="dark"] .form-group label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+:root[data-theme="light"] .form-group input {
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    color: #1a202c;
+}
+
+:root[data-theme="dark"] .form-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(79, 172, 254, 0.3);
+    color: #fff;
+}
+
+.form-group input::placeholder {
+    opacity: 0.6;
+}
+
+.form-group input:focus {
+    outline: none;
+}
+
+:root[data-theme="light"] .form-group input:focus {
+    border-color: rgba(102, 126, 234, 0.6);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+:root[data-theme="dark"] .form-group input:focus {
+    border-color: rgba(79, 172, 254, 0.8);
+    box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.2);
+}
+
+/* Buttons - SMALLER SIZE */
+.submit-btn,
+.back-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+:root[data-theme="light"] .back-btn {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+:root[data-theme="dark"] .back-btn {
+    background: rgba(79, 172, 254, 0.15);
+    color: #4facfe;
+    border: 2px solid rgba(79, 172, 254, 0.3);
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+}
+
+:root[data-theme="light"] .back-btn:hover {
+    background: rgba(102, 126, 234, 0.15);
+}
+
+:root[data-theme="dark"] .back-btn:hover {
+    background: rgba(79, 172, 254, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .create-user-container {
+        max-width: 100%;
+    }
+
+    .create-user-card {
+        padding: 24px 20px;
+    }
+
+    .create-user-card h1 {
+        font-size: 1.5rem;
+    }
+
+    .morph-blob {
+        filter: blur(40px);
+    }
+}
