@@ -72,55 +72,68 @@ export default function TypingTrainer() {
     if (!keys) return [];
     return Array.isArray(keys) ? keys : Array.from(keys);
   };
-
-  // USER INITIALIZATION AND PROGRESS LOADING
-  // USER INITIALIZATION AND PROGRESS LOADING
+  
+// USER INITIALIZATION AND PROGRESS LOADING
 useEffect(() => {
   const user = sessionStorage.getItem('username');
-  if (!user) {
+  const demoMode = sessionStorage.getItem('isDemoMode') === 'true';
+
+  // If not logged in AND not in demo mode, force auth
+  if (!user && !demoMode) {
     navigate('/user-auth');
     return;
   }
-  setUsername(user);
 
-  try {
-    let progress = null;
-
-    // Prefer session progress if present (new/session users)
-    if (isSessionUser(user)) {
-      progress = getUserProgressSession(user) || {};
-    } else {
-      // Otherwise try to load persistent progress from localStorage
-      // (getUserProgress returns defaults if user not found)
-      progress = getUserProgress(user) || {};
+  // If demo mode, mark local state so demo timer/flow works
+  if (demoMode) {
+    setIsDemoMode(true);
+    const startTime = sessionStorage.getItem('demoStartTime');
+    if (startTime) {
+      const elapsed = Math.floor((Date.now() - parseInt(startTime, 10)) / 1000);
+      const remaining = Math.max(120 - elapsed, 0);
+      setDemoTimeLeft(remaining);
     }
+  }
 
-    // Make sure we have an array to build a Set from
-    const unlockedArray = Array.isArray(progress.unlockedLetters)
-      ? progress.unlockedLetters
-      : unlockOrder.slice(0, INITIALLY_UNLOCKED);
+  // If we have a username, load their progress (session or local)
+  if (user) {
+    setUsername(user);
+    try {
+      let progress = null;
 
-    const userUnlockedKeys = new Set(unlockedArray);
-    setUnlockedKeys(userUnlockedKeys);
-
-    // Set last session WPM if available (use session value first, else local)
-    const lastWpm = progress.lastSessionWPM ?? progress.lastSessionWPM === 0 ? progress.lastSessionWPM : 0;
-    setLastSessionWPM(lastWpm);
-
-    // Update locked set based on unlocked keys and current unlockOrder
-    const allLetters = new Set(unlockOrder);
-    const locked = new Set();
-    allLetters.forEach(letter => {
-      if (!userUnlockedKeys.has(letter)) {
-        locked.add(letter);
+      if (isSessionUser(user)) {
+        progress = getUserProgressSession(user) || {};
+      } else {
+        // load persistent progress if available
+        progress = getUserProgress(user) || {};
       }
-    });
-    setLockedSet(locked);
-  } catch (err) {
-    console.warn('Failed to load user progress, using defaults:', err);
-    // keep the defaults already in state (initial unlockedKeys and lockedSet)
+
+      const unlockedArray = Array.isArray(progress.unlockedLetters)
+        ? progress.unlockedLetters
+        : unlockOrder.slice(0, INITIALLY_UNLOCKED);
+
+      const userUnlockedKeys = new Set(unlockedArray);
+      setUnlockedKeys(userUnlockedKeys);
+
+      const lastWpm = progress.lastSessionWPM ?? 0;
+      setLastSessionWPM(lastWpm);
+
+      // Update locked set based on unlocked keys and current unlockOrder
+      const allLetters = new Set(unlockOrder);
+      const locked = new Set();
+      allLetters.forEach(letter => {
+        if (!userUnlockedKeys.has(letter)) locked.add(letter);
+      });
+      setLockedSet(locked);
+    } catch (err) {
+      console.warn('Failed to load user progress, using defaults:', err);
+    }
+  } else {
+    // No username but in demo mode: keep defaults (initial 4 unlocked)
+    // Optional: setUsername('demo') if you prefer a demo username.
   }
 }, [navigate]);
+
 
 
   // DEMO MODE INITIALIZATION
