@@ -96,7 +96,7 @@
     cursor: pointer;
     font-family: inherit;
 }
-
+/* 
 .hero-navbar nav button::after {
     content: '';
     position: absolute;
@@ -106,6 +106,19 @@
     height: 3px;
     background: linear-gradient(90deg, #6b59ed, #8f6fff);
     border-radius: 2px;
+    transition: width 0.3s ease;
+} */
+
+.hero-navbar nav button::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6b59ed, #8f6fff);
+    border-radius: 2px;
+    transform: translateX(-50%);
     transition: width 0.3s ease;
 }
 
