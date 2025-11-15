@@ -27,7 +27,7 @@ export default function DemoTyping() {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, []);
+    });
 
     const handleContinue = () => {
         sessionStorage.removeItem("isDemoMode");
