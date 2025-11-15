@@ -169,22 +169,7 @@ export default function TypingTrainer() {
     }
   }, [isDemoMode, demoTimeLeft, navigate]);
 
-  // GENERATED TEXT FROM UNLOCKED LETTERS
-  // const generateTextFromKeys = (keys) => {
-  //   const arr = keysToArray(keys);
-  //   if (!arr || arr.length === 0) return 'Please unlock some keys in settings.';
 
-  //   const words = [];
-  //   for (let i = 0; i < 25; i++) {
-  //     const len = Math.floor(Math.random() * 4) + 3;
-  //     let word = '';
-  //     for (let j = 0; j < len; j++) {
-  //       word += arr[Math.floor(Math.random() * arr.length)];
-  //     }
-  //     words.push(word);
-  //   }
-  //   return words.join(' ');
-  // };
   const generateTextFromKeys = useCallback((keys) => {
     const arr = keysToArray(keys);
     if (!arr || arr.length === 0) return 'Please unlock some keys in settings.';

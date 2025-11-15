@@ -7,6 +7,38 @@ export default function CreateUserPage() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     if (!username.trim()) {
+    //         setError("Please enter a username");
+    //         return;
+    //     }
+
+    //     const trimmedUsername = username.trim();
+
+    //     // Get existing users array
+    //     const existingUsers = JSON.parse(localStorage.getItem("typingUsers")) || [];
+
+    //     // Check if user already exists
+    //     if (existingUsers.includes(trimmedUsername)) {
+    //         setError("Username already exists. Please choose another.");
+    //         return;
+    //     }
+
+    //     // Add new user to the list
+    //     existingUsers.push(trimmedUsername);
+    //     localStorage.setItem("typingUsers", JSON.stringify(existingUsers));
+
+    //     // ✅ FIXED: Use sessionStorage with "username" key (consistent with LoginPage)
+    //     sessionStorage.setItem("username", trimmedUsername);
+
+    //     // Initialize user progress in sessionStorage for new users
+    //     const { saveUserProgressSession } = await import("../utils/userProgressManager");
+    //     saveUserProgressSession(trimmedUsername, ['e', 'n', 'i', 'a'], 0, 0);
+
+    //     navigate("/welcome");
+    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -17,28 +49,72 @@ export default function CreateUserPage() {
 
         const trimmedUsername = username.trim();
 
-        // Get existing users array
-        const existingUsers = JSON.parse(localStorage.getItem("typingUsers")) || [];
+        // Get existing typingUsers array (kept for backward compatibility)
+        const existingTypingUsers = JSON.parse(localStorage.getItem("typingUsers")) || [];
 
-        // Check if user already exists
-        if (existingUsers.includes(trimmedUsername)) {
+        // Check if user already exists in typingUsers array
+        if (existingTypingUsers.includes(trimmedUsername)) {
             setError("Username already exists. Please choose another.");
             return;
         }
 
-        // Add new user to the list
-        existingUsers.push(trimmedUsername);
-        localStorage.setItem("typingUsers", JSON.stringify(existingUsers));
+        // Add new user to the typingUsers list and save
+        existingTypingUsers.push(trimmedUsername);
+        localStorage.setItem("typingUsers", JSON.stringify(existingTypingUsers));
 
-        // ✅ FIXED: Use sessionStorage with "username" key (consistent with LoginPage)
+        // --- NEW: ensure persistent 'users' map exists and contains this user ---
+        // This is the important bit your app was missing.
+        try {
+            const usersRaw = localStorage.getItem("users");
+            let users = {};
+            if (usersRaw) {
+                try {
+                    users = JSON.parse(usersRaw) || {};
+                } catch (parseErr) {
+                    // corrupted JSON — reset to empty object but preserve other key
+                    console.warn("users parse failed, resetting users map:", parseErr);
+                    users = {};
+                }
+            }
+
+            // If the user does not exist yet, create a default entry
+            if (!users[trimmedUsername]) {
+                users[trimmedUsername] = {
+                    unlockedLetters: ['e', 'n', 'i', 'a'], // default initial letters
+                    highestWPM: 0,
+                    lastSessionWPM: 0,
+                    sessionHistory: [],
+                    createdAt: new Date().toISOString(),
+                    lastUpdated: new Date().toISOString()
+                };
+
+                // Persist the users map
+                localStorage.setItem("users", JSON.stringify(users));
+            } else {
+                // If user exists, ensure lastUpdated exists (optional)
+                users[trimmedUsername].lastUpdated = new Date().toISOString();
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+        } catch (err) {
+            console.error("Failed to write users to localStorage:", err);
+        }
+
+        // Save username in session so TypingTrainer recognizes the logged-in user
         sessionStorage.setItem("username", trimmedUsername);
 
-        // Initialize user progress in sessionStorage for new users
-        const { saveUserProgressSession } = await import("../utils/userProgressManager");
-        saveUserProgressSession(trimmedUsername, ['e', 'n', 'i', 'a'], 0, 0);
+        // Initialize session progress for the new user (keeps your dynamic import approach)
+        try {
+            const { saveUserProgressSession } = await import("../utils/userProgressManager");
+            // pass unlocked letters, highestWPM, lastSessionWPM
+            saveUserProgressSession(trimmedUsername, ['e', 'n', 'i', 'a'], 0, 0);
+        } catch (err) {
+            console.warn("Failed to initialize session progress:", err);
+        }
 
+        // Navigate to welcome screen (or typing if you auto-login)
         navigate("/welcome");
     };
+
 
     return (
         <div className="create-user-page">
